@@ -1,10 +1,14 @@
 <?php
 
+use App\Country;
 use App\Http\Controllers\PostController;
 use Illuminate\Support\Facades\Route;
 use App\Post;
 use App\User;
 use App\Role;
+use App\Photo;
+
+use function GuzzleHttp\Promise\all;
 
 /*
 |--------------------------------------------------------------------------
@@ -185,9 +189,9 @@ Route::get('/basicinsert/{id}', function ($id) {
 
 // */
 
-Route::get('/create/{userid}/{title}/{content}', function ($userid,$title,$content) {
+Route::get('/create/{id}/{title}/{content}/{userid}', function ($id,$title,$content,$userid) {
 
-    $post = post::create(['user_id'=>$userid,'title'=>$title,'content'=>$content]);
+    $post = post::create(['id'=>$id,'title'=>$title,'content'=>$content, 'user_id'=>$userid]);
 
     return $post;
 
@@ -330,13 +334,13 @@ Route::get('/post/{id}/user', function($id) {
 
 Route::get('/user/{id}/posts', function ($id) {
 
-    $user = User::find($id)->roles()->orderBy('id','desc')->get();
+    $user = User::find($id)->roles();
 
     // foreach ($user->posts as $post) {
 
     //     echo $post->title . "<br>";
     // }
-        return $user;
+
 
 });
 
@@ -350,11 +354,74 @@ Route::get('/user/{id}/posts', function ($id) {
 
 Route::get('/user/{id}/role', function ($id) {
 
-    $user = User::find($id);
+    $user = User::find($id)->roles()->orderBy('id','desc')->get();
 
-    foreach ($user->roles as $role) {
+    // foreach ($user->roles as $role) {
 
-        echo $role->name."<br>";
+    //     echo $role->name."<br>";
+    // }
+    return $user;
+});
+
+/// acces de pivot table
+
+Route::get('/users/pivot', function () {
+
+    $user = User::find(1);
+
+    foreach($user->roles as $role) {
+        # code...
+        return $role->pivot->created_at;
     }
 
 });
+
+Route::get('/post/{id}/country', function ($id) {
+
+    return Country::find($id)->name;
+
+});
+
+Route::get('/user/{id}/photo', function ($id) {
+
+    $user = User::find($id);
+
+    foreach ($user->photos as $photo) {
+        # code...
+        echo $photo->path."<br>";
+    }
+
+});
+
+Route::get('/post/{id}/photo', function ($id) {
+
+    $post = Post::find($id);
+
+    foreach ($post->photos as $photo) {
+        # code...
+        echo $photo->path."<br>";
+    }
+
+});
+
+Route::get('/role/{id}', function ($id) {
+
+    $role = Role::find($id);
+
+    foreach ($role->photos as $photo) {
+        # code...
+        echo $photo->path."<br>";
+    }
+});
+
+Route::get('/photo/{id}', function ($id) {
+
+    $photo = Photo::find($id);
+
+    $imageable = $photo->imageable;
+
+    Return $imageable->name;
+
+});
+
+
