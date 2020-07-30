@@ -7,6 +7,9 @@ use App\Post;
 use App\User;
 use App\Role;
 use App\Photo;
+use App\Tag;
+
+use PhpParser\Node\Stmt\Foreach_;
 
 use function GuzzleHttp\Promise\all;
 
@@ -416,12 +419,71 @@ Route::get('/role/{id}', function ($id) {
 
 Route::get('/photo/{id}', function ($id) {
 
+
+
     $photo = Photo::find($id);
 
     $imageable = $photo->imageable;
 
-    Return $imageable->name;
+    if ($photo->imageable_type ==  'App\Post') {
+        return "photo : ". $photo->path." es del post: ".$imageable->title;
+
+    } else {
+        Return $photo->path." es de Nombre : ".$imageable->name;
+    };
+
+
+
 
 });
 
 
+/* Route::get('/photos', function () {
+
+     $photos = Photo::table();
+
+    foreach ($photos as $) {
+
+
+            $photo = Photo::find($id);
+
+            $imageable = $photo->imageable;
+
+            if ($photo->imageable_type ==  'App\Post') {
+                echo "photo : ". $photo->path." es del post: ".$imageable->title."<br>";;
+
+            } else {
+                echo $photo->path." es de nombre : ".$imageable->name."<br>";
+            };
+    }
+
+
+
+});
+ */
+//polimophic
+
+ Route::get('/post/{id}/tags', function ($id) {
+
+    $post = Post::find($id);
+
+    foreach ($post->tags as $tag) {
+
+        echo "post title: ".$post->title." has Tag: ".$tag->name."<br>";
+    }
+
+ });
+
+
+ Route::get('/tag/post/{id}', function ($id) {
+
+    $tag = Tag::find($id);
+
+    foreach ($tag->posts as $post ) {
+
+       echo $post->title;
+    }
+
+ });
+ ///  crat data from Tinker
+//  $post = App\Post::create(['title'=>'PHP Post from tinker','content'=>'PHP content from tinker]');
