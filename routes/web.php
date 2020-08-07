@@ -24,9 +24,9 @@ use function GuzzleHttp\Promise\all;
 |
 */
 
-Route::get('/', function () {
-    return view('wellcome');
-});
+// Route::get('/', function () {
+//     return view('wellcome');
+// });
 
 // Route::get('/page', function () {
 //     return view('page');
@@ -105,15 +105,15 @@ Route::get('/', function () {
 
 */
 
-Route::get('/read', function () {
+// Route::get('/read', function () {
 
-    $posts = post::all();
+//     $posts = post::all();
 
-    foreach ($posts as $post) {
-        return $post->title;
-    }
+//     foreach ($posts as $post) {
+//         return $post->title;
+//     }
 
-});
+// });
 
 // Route::get('/find/{id}', function ($id) {
 
@@ -154,17 +154,17 @@ Route::get('/read', function () {
 
 */
 
-Route::get('/basicinsert/{id}', function ($id) {
+// Route::get('/basicinsert/{id}', function ($id) {
 
-    $post = new Post;
+//     $post = new Post;
 
-    $post->title = "this is the post with title ID: $id";
+//     $post->title = "this is the post with title ID: $id";
 
-    $post->content = "wow eloquent is really whatever and really cool $id";
+//     $post->content = "wow eloquent is really whatever and really cool $id";
 
-    $post->save();
+//     $post->save();
 
-});
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -192,14 +192,14 @@ Route::get('/basicinsert/{id}', function ($id) {
 
 // */
 
-Route::get('/create/{id}/{title}/{content}/{userid}', function ($id,$title,$content,$userid) {
+// Route::get('/create/{id}/{title}/{content}/{userid}', function ($id,$title,$content,$userid) {
 
-    $post = post::create(['id'=>$id,'title'=>$title,'content'=>$content, 'user_id'=>$userid]);
+//     $post = post::create(['id'=>$id,'title'=>$title,'content'=>$content, 'user_id'=>$userid]);
 
-    return $post;
+//     return $post;
 
 
-});
+// });
 /*
 |--------------------------------------------------------------------------
 | Eloquent ORM (object relational Model) update
@@ -245,24 +245,24 @@ Route::get('/create/{id}/{title}/{content}/{userid}', function ($id,$title,$cont
 
 // */
 
-Route::get('/softdelete/{id}', function ($id) {
+// Route::get('/softdelete/{id}', function ($id) {
 
-    Post::find($id)->delete();
+//     Post::find($id)->delete();
 
-});
+// });
 
 
-Route::get('/readsoftdelete', function () {
+// Route::get('/readsoftdelete', function () {
 
-    // $post= Post::all();
-    // return $post;
+//     // $post= Post::all();
+//     // return $post;
 
-    $post = Post::onlyTrashed()
-            ->get();
+//     $post = Post::onlyTrashed()
+//             ->get();
 
-    return $post;
+//     return $post;
 
-});
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -272,13 +272,13 @@ Route::get('/readsoftdelete', function () {
 
 // */
 
-Route::get('/restore/{id}', function ($id) {
+// Route::get('/restore/{id}', function ($id) {
 
-    Post::withTrashed()
-        ->where('id',$id)
-        ->restore();
+//     Post::withTrashed()
+//         ->where('id',$id)
+//         ->restore();
 
-});
+// });
 
 
 /*
@@ -289,13 +289,7 @@ Route::get('/restore/{id}', function ($id) {
 
 // */
 
-Route::get('/forcedelete/{id}', function ($id) {
 
-    Post::onlyTrashed()
-    ->where('id',$id)
-    ->forceDelete();
-
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -305,13 +299,7 @@ Route::get('/forcedelete/{id}', function ($id) {
 
 // */
 
-Route::get('/user/{id}/post', function ($id) {
 
-    $post = User::find($id)->post;
-    $username = User::find($id)->name;
-    return "title: ".$post->title." Content: ".$post->content."  Autor: ".$username;
-    //return $post->content;
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -321,11 +309,7 @@ Route::get('/user/{id}/post', function ($id) {
 
 // */
 
-Route::get('/post/{id}/user', function($id) {
 
-    return Post::find($id)->user->name;
-
-});
 
 /*
 |--------------------------------------------------------------------------
@@ -335,17 +319,17 @@ Route::get('/post/{id}/user', function($id) {
 
 // */
 
-Route::get('/user/{id}/posts', function ($id) {
+// Route::get('/user/{id}/posts', function ($id) {
 
-    $user = User::find($id)->roles();
+//     $user = User::find($id)->roles();
 
-    // foreach ($user->posts as $post) {
+//     // foreach ($user->posts as $post) {
 
-    //     echo $post->title . "<br>";
-    // }
+//     //     echo $post->title . "<br>";
+//     // }
 
 
-});
+// });
 
 /*
 |--------------------------------------------------------------------------
@@ -355,87 +339,87 @@ Route::get('/user/{id}/posts', function ($id) {
 
 // */
 
-Route::get('/user/{id}/role', function ($id) {
+// Route::get('/user/{id}/role', function ($id) {
 
-    $user = User::find($id)->roles()->orderBy('id','desc')->get();
+//     $user = User::find($id)->roles()->orderBy('id','desc')->get();
 
-    // foreach ($user->roles as $role) {
+//     // foreach ($user->roles as $role) {
 
-    //     echo $role->name."<br>";
-    // }
-    return $user;
-});
+//     //     echo $role->name."<br>";
+//     // }
+//     return $user;
+// });
 
 /// acces de pivot table
 
-Route::get('/users/pivot', function () {
+// Route::get('/users/pivot', function () {
 
-    $user = User::find(1);
+//     $user = User::find(1);
 
-    foreach($user->roles as $role) {
-        # code...
-        return $role->pivot->created_at;
-    }
+//     foreach($user->roles as $role) {
+//         # code...
+//         return $role->pivot->created_at;
+//     }
 
-});
+// });
 
-Route::get('/post/{id}/country', function ($id) {
+// Route::get('/post/{id}/country', function ($id) {
 
-    return Country::find($id)->name;
+//     return Country::find($id)->name;
 
-});
+// });
 
-Route::get('/user/{id}/photo', function ($id) {
+// Route::get('/user/{id}/photo', function ($id) {
 
-    $user = User::find($id);
+//     $user = User::find($id);
 
-    foreach ($user->photos as $photo) {
-        # code...
-        echo $photo->path."<br>";
-    }
+//     foreach ($user->photos as $photo) {
+//         # code...
+//         echo $photo->path."<br>";
+//     }
 
-});
+// });
 
-Route::get('/post/{id}/photo', function ($id) {
+// Route::get('/post/{id}/photo', function ($id) {
 
-    $post = Post::find($id);
+//     $post = Post::find($id);
 
-    foreach ($post->photos as $photo) {
-        # code...
-        echo $photo->path."<br>";
-    }
+//     foreach ($post->photos as $photo) {
+//         # code...
+//         echo $photo->path."<br>";
+//     }
 
-});
+// });
 
-Route::get('/role/{id}', function ($id) {
+// Route::get('/role/{id}', function ($id) {
 
-    $role = Role::find($id);
+//     $role = Role::find($id);
 
-    foreach ($role->photos as $photo) {
-        # code...
-        echo $photo->path."<br>";
-    }
-});
+//     foreach ($role->photos as $photo) {
+//         # code...
+//         echo $photo->path."<br>";
+//     }
+// });
 
-Route::get('/photo/{id}', function ($id) {
-
-
-
-    $photo = Photo::find($id);
-
-    $imageable = $photo->imageable;
-
-    if ($photo->imageable_type ==  'App\Post') {
-        return "photo : ". $photo->path." es del post: ".$imageable->title;
-
-    } else {
-        Return $photo->path." es de Nombre : ".$imageable->name;
-    };
+// Route::get('/photo/{id}', function ($id) {
 
 
 
+//     $photo = Photo::find($id);
 
-});
+//     $imageable = $photo->imageable;
+
+//     if ($photo->imageable_type ==  'App\Post') {
+//         return "photo : ". $photo->path." es del post: ".$imageable->title;
+
+//     } else {
+//         Return $photo->path." es de Nombre : ".$imageable->name;
+//     };
+
+
+
+
+// });
 
 
 /* Route::get('/photos', function () {
@@ -463,27 +447,39 @@ Route::get('/photo/{id}', function ($id) {
  */
 //polimophic
 
- Route::get('/post/{id}/tags', function ($id) {
+//  Route::get('/post/{id}/tags', function ($id) {
 
-    $post = Post::find($id);
+//     $post = Post::find($id);
 
-    foreach ($post->tags as $tag) {
+//     foreach ($post->tags as $tag) {
 
-        echo "post title: ".$post->title." has Tag: ".$tag->name."<br>";
-    }
+//         echo "post title: ".$post->title." has Tag: ".$tag->name."<br>";
+//     }
 
- });
+//  });
 
 
- Route::get('/tag/post/{id}', function ($id) {
+//  Route::get('/tag/post/{id}', function ($id) {
 
-    $tag = Tag::find($id);
+//     $tag = Tag::find($id);
 
-    foreach ($tag->posts as $post ) {
+//     foreach ($tag->posts as $post ) {
 
-       echo $post->title;
-    }
+//        echo $post->title;
+//     }
 
- });
+//  });
  ///  crat data from Tinker
 //  $post = App\Post::create(['title'=>'PHP Post from tinker','content'=>'PHP content from tinker]');
+
+
+/*
+|--------------------------------------------------------------------------
+| Eloquent ORM (object relational Model) CRUD APP using FORMS
+|--------------------------------------------------------------------------
+|
+
+// */
+
+Route::resource('/posts','PostController');
+

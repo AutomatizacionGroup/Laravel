@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PhpParser\Node\Scalar\MagicConst\Function_;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -12,10 +13,12 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
         //
-        return "Its working the number is:  " . $id;
+        $posts = Post::all();
+
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -26,7 +29,7 @@ class PostController extends Controller
     public function create()
     {
         //
-        return "I am the method that creates stuff";
+        return view('posts.create');
     }
 
     /**
@@ -37,7 +40,21 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 1 way of doing it!
+        Post::create($request->all());
+
+        return redirect('/posts');
+
+        //Another way is
+        // $input = $request->all();
+        // $input['title'] = $request->title;
+        // Post::create($request->all());
+
+        // and then Another one
+        // $post = new Post;
+        // $post->title = $request->title;
+        // $post->save();
+
     }
 
     /**
@@ -48,9 +65,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::findOrFail($id);
 
-        return "this is the show method yeaa ". "$id";
+        return view('posts.show', compact('post'));
     }
 
     /**
