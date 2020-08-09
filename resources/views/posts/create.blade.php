@@ -8,7 +8,7 @@
 
  {!! Form::text('title', 'Enter title') !!}
 
- {!! Form::submit('Click Me!') !!}
+ {!! Form::submit('Create') !!}
 
  {!! Form::close() !!}
 
