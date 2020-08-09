@@ -2,13 +2,15 @@
 
 @section('content')
 
-<form method="post" action="/posts">
-        {{csrf_field()}}
-        <input type="text" name="title" placeholder="Enter title">
+ <h1>Create Post</h1>
 
-        <input type="submit" name="submit">
+ {!! Form::open(['url' => '/posts']) !!}
 
-</form>
+ {!! Form::text('title', 'Enter title') !!}
+
+ {!! Form::submit('Click Me!') !!}
+
+ {!! Form::close() !!}
 
 
 
