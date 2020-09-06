@@ -4,30 +4,31 @@
 
 <h1>Edit Post</h1>
 
-        {{-- {!! Form::open(['url' => '/posts/{{$post->id}}']) !!} --}}
-            <form method="post" action="/posts/{{$post->id}}">
 
-                {{csrf_field()}}
+    {!! Form::model($post, ['method'=>'PATCH','route' => ['posts.update', $post->id]]) !!}
+        {!! Form::label('title', 'Title') !!}
+        {!! Form::text('title', old('title')  ) !!}
+        {!! Form::label('content', 'Content') !!}
+        {!! Form::text('content' , old('content')  ) !!}
+        <br>
+        {!! Form::submit('Update' ) !!}
+    {!! Form::close() !!}
 
-                <input type="hidden" name="_method" value="PUT">
 
-                <input type="text" name="title" placeholder="Enter title" value="{{$post->title}}">
+    {!! Form::model($post, ['method'=>'DELETE','route' => ['posts.destroy', $post->id]]) !!}
+        <br>
+        {!! Form::submit('Delete' ) !!}
+    {!! Form::close() !!}
 
-                <input type="submit" name="submit" value="UPDATE">
-
-
-            </form>
-
-        {{-- {!! Form::open(['url' => '/posts/{{$post->id}}']) !!} --}}
-            <form method="post" action="/posts/{{$post->id}}">
-
-                {{csrf_field()}}
-
-                <input type="hidden" name="_method" value="DELETE">
-
-                <input type="submit" name="delete" value="DELETE">
-
-            </form>
+    @if (count($errors)>0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{$error}}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 
 
 

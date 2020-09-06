@@ -8,6 +8,7 @@ use App\User;
 use App\Role;
 use App\Photo;
 use App\Tag;
+use Illuminate\Support\Carbon;
 
 use PhpParser\Node\Stmt\Foreach_;
 
@@ -481,5 +482,46 @@ use function GuzzleHttp\Promise\all;
 
 // */
 
-Route::resource('/posts','PostController');
 
+
+Route::group(['middleware' => 'web'], function () {
+
+    Route::resource('/posts','PostController');
+
+});
+
+Route::get('/date', function () {
+
+    $date = new DateTime('+52 week');
+
+    echo $date->format('d-m-y');
+
+    echo '<br>';
+
+    echo Carbon::now()->format('d-m-y');
+    echo '<br>';
+    echo Carbon::now()->dayName;
+    echo '<br>';
+    echo Carbon::now()->locale('es')->isoFormat('dddd, MMMM Do YYYY, h:mm');
+
+
+
+
+});
+
+
+Route::get('/getname', function () {
+
+    $user = User::find(1);
+
+    echo $user->name;
+});
+
+Route::get('/setname', function () {
+
+    $user = User::find(1);
+
+    $user->name = "oswaldo";
+
+    $user->save();
+});

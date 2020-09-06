@@ -33,14 +33,26 @@ class Post extends Model
 
 
 
-        public function photos()
-        {
-            return $this->morphMany('App\Photo', 'imageable');
-        }
+    public function photos()
+    {
+        return $this->morphMany('App\Photo', 'imageable');
+    }
 
-        public function tags()
-        {
-            return $this->morphtoMany('App\Tag', 'taggable');
-        }
+    public function tags()
+    {
+        return $this->morphtoMany('App\Tag', 'taggable');
+    }
 
+    public static function scopeList($query){
+
+        return $query->orderBy('id','desc')->get();
+
+
+    }
+
+    public static function scopeCulo($query){
+
+        return $query->orderBy('id','desc')->get();
+
+    }
 }

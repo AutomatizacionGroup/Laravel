@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePostRequest;
 use Illuminate\Http\Request;
 use PhpParser\Node\Scalar\MagicConst\Function_;
 use App\Post;
@@ -16,7 +17,8 @@ class PostController extends Controller
     public function index()
     {
         //
-        $posts = Post::all();
+        $posts = Post::culo();
+
 
         return view('posts.index',compact('posts'));
     }
@@ -38,8 +40,13 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
+/*         $this->validate($request, [
+            'title'=>'required|max:30',
+            'content'=>'required'
+        ]); */
+
         // 1 way of doing it!
         Post::create($request->all());
 
@@ -93,6 +100,10 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, [
+            'title'=>'required',
+            'content'=>'required'
+        ]);
         $post = Post::findOrFail($id);
 
         $post->update($request->all());
@@ -130,5 +141,7 @@ class PostController extends Controller
         return view('post', compact('id','name', 'password') );
 
     }
+
+
 
 }
